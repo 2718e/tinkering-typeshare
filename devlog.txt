@@ -1,0 +1,36 @@
+16/06/2018 1611 UK timezone
+
+- looks easier than seemed to set up typescript to run node (there is a package to do it for me :) )
+- lets look up if there is a standard way to do type sharing
+
+16/06/2018 1656 UK timezone
+
+- can't see any existing libraries for type sharing.
+- Usually would think interface - but a client api to call a backend and the backend itself aren't necessarily the same types at all -
+even if the correct way to call the api is defined by the backend.
+- Ideally want to avoid having to resort to code generation to do this and be lightwieght.
+
+Lets read the typescript docs again and see if any of the fancier features would allow to define some sort of a type A which is defined as a function of a type B
+
+16/06/2018 2103 UK timezone
+
+Yep - there is, namely mapped types. Probably should define better what want to achieve
+
+16/06/2018 2103 UK timezone
+
+random aside thought - it would be cool if could have an ahk script or something to type out the system time for me.
+
+How to describe a rest API. Mostly (not always there is a)
+
+url - could this be a string literal type
+method type (GET, POST, PUT, etc) - (probably could describe this with union type of string literals)
+a returned json payload - could probably describe with interface ( or a Promise of one)
+query string paramaters, using parts of the url itself as parameters - think more about this later
+a request body usually containing json - again could describe this with an interface
+
+could you have a method for creating express routes based on say method type, url, payload type, return json type -
+
+.. plus a method for generating a client api object
+
+(i.e. instead of generating the client from the server, you generate (by type mapping) an 
+interface that the server must implement and an interface that the client must implement)
