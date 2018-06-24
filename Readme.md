@@ -13,6 +13,13 @@ However - using code generation can complicate build pipelines and be confusing.
 
 What this "tinkering" project exists to explore is if it is possible to get similar benefits to client code generation *without* using code generation if both the client and server are implemented in typescript.
 
+### Todos
+
+- implement a generic server caller
+- implement a function that adds server methods to an express router
+- allow query string (and maybe url) parameters as well as body parameters
+- could server caller be a higher order function rather than a class? (essentially want to curry a type parameter)
+
 ### Credits
 
 followed this article a bit https://medium.com/aherforth/how-to-get-auto-restart-and-breakpoint-support-with-typescript-and-node-5af589dd8687

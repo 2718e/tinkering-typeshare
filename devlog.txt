@@ -34,3 +34,20 @@ could you have a method for creating express routes based on say method type, ur
 
 (i.e. instead of generating the client from the server, you generate (by type mapping) an 
 interface that the server must implement and an interface that the client must implement)
+
+...
+
+that said - ideally would like to not have to implement a client caller and have it be there automatically
+- could we have a generic function.
+- also need to make sure the actual implementation of the server isn't taken into the client e.g. no method body
+
+...
+
+- this looks like it could be done but can we avoid having to specify the url both as a type parameter and an actual parameter,
+what about wrapping in an interface
+
+...
+
+Wrapping in a class seems to get the type signatures to work, now need to make
+- a function for adding the methods to an express router
+- body of the servercaller.callserver method.

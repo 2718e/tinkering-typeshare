@@ -1,14 +1,24 @@
-import { Router } from 'express-serve-static-core';
-
 type RestMethod = "get" | "post" | "put" | "delete";
 
-interface ServerMethod<TQueryParams, TBodyParams, TReturn> {
+interface ServerMethod<TRestMethod extends RestMethod, TBodyParams, TReturn> {
 
-  restMethod: RestMethod
-  computeValue: (params: TBodyParams & TQueryParams) => TReturn
-  "queryType"?: TQueryParams
+  "restMethod": TRestMethod
+  computeValue: (params: TBodyParams) => TReturn
   "bodyType"?: TBodyParams // should never assign these properties but having them allows to extract the precise type of the generic when mapping the type.
   "retType"?: TReturn
+
+}
+
+type SMDict = {[s:string] : ServerMethod<any,any,any>}
+
+
+export class ServerCaller<TServer extends SMDict> {
+
+  constructor(){}
+
+  async callServer<TMethod extends keyof TServer>(url: TMethod, restMethod: TServer[TMethod]["restMethod"], bp: TServer[TMethod]["bodyType"]){
+    console.log("not implemented")
+  }
 
 }
 
@@ -16,20 +26,11 @@ interface IOrder {
   quantity: number
   description: string
 }
-
-type SMDict = {[s:string] : ServerMethod<any,any,any>}
-
 // developer should fill this in 
-interface IServerApi extends SMDict{
-  "getOrderById": ServerMethod<string, void, IOrder>
+interface IDummyServerApi extends SMDict{
+  "getOrderById": ServerMethod<"get", string, IOrder>
 }
 
-type ServerMethodCaller<TM extends ServerMethod<any,any,any>> = (qp: TM["queryType"], bp:TM["bodyType"] ) => Promise<TM["retType"]>
+const testCaller = new ServerCaller<IDummyServerApi>();
 
-type ClientApi<TServerApi extends SMDict > = { 
-  [m in keyof TServerApi]: ServerMethodCaller<TServerApi[m]>
-}
-
-const ClientCaller: ClientApi<IServerApi> = {
-  "getOrderById": async (id: string) => { return {quantity:7, description: id}}
-}
+testCaller.callServer("getOrderById","get","7");
