@@ -15,9 +15,10 @@ However - using code generation can complicate build pipelines and be confusing.
 
 What this "tinkering" project exists to explore is if it is possible to get the same type safety that generating api calling code brings - but to do so *without* using code generation - when both the client and server are implemented in typescript.
 
+This is still in development and hasn't been used in any real projects yet - as such it is unknown if it actually works correctly
+
 ### Todos
 
-- allow query string (and maybe url) parameters as well as body parameters
 - could server caller be a higher order function rather than a class? 
 
 ### Credits

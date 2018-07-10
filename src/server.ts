@@ -1,6 +1,6 @@
 import * as express from 'express'
 import {api } from './shared/api'
-import { applyServerMethodsToExpressRouter } from './shared/typesharing'
+import { applyServerMethodsToExpressRouter } from './shared/typesharing/serverhelpers'
 import * as Path from 'path'
 import * as Bundler from 'parcel-bundler'
 
@@ -18,6 +18,13 @@ async function start() {
   const r = express.Router()
   r.use(express.json())
   applyServerMethodsToExpressRouter(r, api)
+  
+  r.get('/querytest', (req,res) => {
+    const qry = req.query
+    console.log(qry)
+    res.sendStatus(200)
+  })  
+  
   const bundler = await makeParcelBundler()
   r.use('/',bundler.middleware())
   app.use('/',r)

@@ -1,9 +1,22 @@
-import {SMDict, IServerMethod} from './typesharing'
+import {IServerMethod} from './typesharing/types'
 
 export interface IDummyRequestData {
   id: string,
   quantity: number
 }
+
+// typescript is made in such a way that an interface does not automatically fit a [key:string]
+// indexer as needed for query parameters.
+export type IDummyQueryRequestData = {
+  id: string,
+  quantity: string
+}
+
+export type INestedQueryRequestData = {
+  id: string,
+  quantity: string[][][][]
+}
+
 
 export interface IDummyResponseData {
   quantity: number
@@ -17,20 +30,27 @@ const descriptions = {
 }
 
 export type DummyServerApi = {
-  "/dummymethod": IServerMethod<"post", IDummyRequestData,IDummyResponseData>,
-  "/othermethod": IServerMethod<"post", IDummyRequestData,IDummyResponseData>
+  "/dummymethod": IServerMethod<"post",null, IDummyRequestData,IDummyResponseData>,
+  "/othermethod": IServerMethod<"get",IDummyQueryRequestData,null,IDummyResponseData>
+  "/nestedarrayquery": IServerMethod<"get",INestedQueryRequestData,null,IDummyResponseData>
 }
 export const api : DummyServerApi = {
-  "/dummymethod" : {restMethod:"post", computeValue: async (data) => {
+  "/dummymethod" : {restMethod:"post", computeValue: async (_,data) => {
     return {
       quantity: data.quantity,
+      description: descriptions[data.id] || "Unknown item"
+    }
+  }},"/othermethod": {restMethod:"get", computeValue: async (data,_) => {
+    return {
+      quantity: Number(data.quantity),
       description: descriptions[data.id] || "Unknown item"
     }
   }},
-  "/othermethod": {restMethod:"post", computeValue: async (data) => {
+  "/nestedarrayquery" : {restMethod:"get", computeValue: async (data,_) => {
     return {
-      quantity: data.quantity,
+      quantity: Number(data.quantity[0][0][0][0]),
       description: descriptions[data.id] || "Unknown item"
     }
-  }}
+  }},
+
 }

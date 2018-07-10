@@ -51,3 +51,17 @@ what about wrapping in an interface
 Wrapping in a class seems to get the type signatures to work, now need to make
 - a function for adding the methods to an express router
 - body of the servercaller.callserver method.
+
+...
+
+What about parameters in the query string
+
+is it even possible for a query string parameter to be anything other than a string -
+even if so could maybe have some use for typings e.g. to specify what the names of the parameters are
+
+Lets explore what we can give to express via query strings.
+
+- can give arrays by repeating keys - idea - possible idea - create a type that only allows sring or string array properties (can this be done)
+then use npms query string package to enocde objects of this type to query strings.
+
+note possible issue - the applyserverfunctionstoexpressrouter function is visible in the client side bundle, should possibly fix this by splitting the modules
